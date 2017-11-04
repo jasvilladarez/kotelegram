@@ -27,7 +27,6 @@ internal interface TelegramApi {
                    @Query("allowed_updates") allowedUpdates: MutableList<Update.Type>? = null): Call<Response<List<Update>>>
 
     @POST("sendMessage")
-    @FormUrlEncoded
     fun sendMessage(@Body sendMessageRequest: SendMessageRequest): Call<Response<Message>>
 
     @POST("forwardMessage")
