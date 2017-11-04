@@ -20,5 +20,15 @@ import io.github.jasvilladarez.telegram.model.Message
 
 interface UpdateListener {
 
+    /**
+     * Called when a new message is received
+     */
     fun onMessageReceived(message: Message)
+
+    /**
+     * Called when an error occurred while performing an operation
+     *
+     * Not required to implement
+     */
+    fun onError(error: Throwable) {}
 }

@@ -18,7 +18,9 @@ package io.github.jasvilladarez.telegram
 
 import io.github.jasvilladarez.telegram.api.TelegramService
 import io.github.jasvilladarez.telegram.listener.UpdateListener
+import io.github.jasvilladarez.telegram.model.Update
 import io.github.jasvilladarez.telegram.request.SendMessageRequest
+import java.io.IOException
 import java.net.SocketTimeoutException
 
 class TelegramBot(
@@ -36,27 +38,41 @@ class TelegramBot(
 
     fun startPolling() {
         while (true) {
-            val getUpdates = if (currentMaxId > 0) {
-                telegramService.getUpdates(currentMaxId, timeout = timeout)
-            } else {
-                telegramService.getUpdates(timeout = timeout)
-            }
-
-            val response = try {
-                getUpdates.execute()
-            } catch (e: SocketTimeoutException) {
-                continue
-            }
-
-            if (!response.isSuccessful) continue
-            val responseBody = response.body() ?: continue
-            val updates = responseBody.result
-            updates.forEach { update ->
-                updateListeners.forEach { listener ->
-                    update.message?.let { listener.onMessageReceived(it) }
+            getUpdates()?.forEach {
+                try {
+                    callOnMessageReceivedListener(it)
+                } catch (e: Exception) {
+                    callOnError(e)
                 }
-                currentMaxId = update.updateId + 1
+                currentMaxId = it.updateId + 1
             }
+        }
+    }
+
+    private fun getUpdates(): List<Update>? {
+        val response = try {
+            telegramService.getUpdates(currentMaxId, timeout = timeout).execute()
+        } catch (e: SocketTimeoutException) {
+            callOnError(e)
+            return null
+        }
+
+        if (!response.isSuccessful) {
+            callOnError(IOException(response.errorBody()?.string()))
+            return null
+        }
+        return response.body()?.result
+    }
+
+    private fun callOnMessageReceivedListener(update: Update) {
+        updateListeners.forEach { listener ->
+            update.message?.let { listener.onMessageReceived(it) }
+        }
+    }
+
+    private fun callOnError(error: Throwable) {
+        updateListeners.forEach {
+            it.onError(error)
         }
     }
 
