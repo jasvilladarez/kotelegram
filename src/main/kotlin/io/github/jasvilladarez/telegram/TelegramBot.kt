@@ -2,6 +2,7 @@ package io.github.jasvilladarez.telegram
 
 import io.github.jasvilladarez.telegram.api.TelegramService
 import io.github.jasvilladarez.telegram.listener.UpdateListener
+import io.github.jasvilladarez.telegram.request.SendMessageRequest
 import java.net.SocketTimeoutException
 
 class TelegramBot(
@@ -39,12 +40,15 @@ class TelegramBot(
                     update.message?.let { listener.onMessageReceived(it) }
                 }
                 currentMaxId = update.updateId + 1
-                System.out.println(currentMaxId)
             }
         }
     }
 
     fun addListener(updateListener: UpdateListener) {
         updateListeners.add(updateListener)
+    }
+
+    fun sendMessage(sendMessageRequest: SendMessageRequest) {
+        telegramService.sendMessage(sendMessageRequest).execute()
     }
 }

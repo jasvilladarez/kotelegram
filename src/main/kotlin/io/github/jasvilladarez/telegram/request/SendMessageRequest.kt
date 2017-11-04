@@ -13,13 +13,13 @@ data class SendMessageRequest(
         @SerializedName("text")
         val text: String,
         @SerializedName("parse_mode")
-        val parseMode: ParseMode? = null,
+        var parseMode: ParseMode? = null,
         @SerializedName("disable_web_page_preview")
-        val disableWebPagePreview: Boolean? = null,
+        var disableWebPagePreview: Boolean? = null,
         @SerializedName("disable_notification")
-        val disableNotification: Boolean? = null,
+        var disableNotification: Boolean? = null,
         @SerializedName("reply_to_message_id")
-        val replyToMessageId: Int? = null,
+        var replyToMessageId: Int? = null,
         @SerializedName("reply_markup")
-        val replyMarkup: Markup
+        var replyMarkup: Markup? = null
 )
