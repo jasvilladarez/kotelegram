@@ -24,7 +24,7 @@ internal interface TelegramApi {
     fun getUpdates(@Query("offset") offset: Int? = null,
                    @Query("limit") limit: Int? = null,
                    @Query("timeout") timeout: Int? = null,
-                   @Query("allowed_updates") allowedUpdates: MutableList<Update.Type>): Call<Response<List<Update>>>
+                   @Query("allowed_updates") allowedUpdates: MutableList<Update.Type>? = null): Call<Response<List<Update>>>
 
     @POST("sendMessage")
     @FormUrlEncoded

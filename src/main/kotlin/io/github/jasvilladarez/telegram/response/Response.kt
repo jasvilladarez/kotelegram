@@ -3,7 +3,7 @@ package io.github.jasvilladarez.telegram.response
 import com.google.gson.annotations.SerializedName
 import io.github.jasvilladarez.telegram.model.ResponseParameters
 
-internal abstract class Response<out T>(
+internal class Response<out T>(
         @SerializedName("ok")
         val ok: Boolean,
         @SerializedName("error_code")
