@@ -6,8 +6,11 @@ buildscript {
 
     repositories {
         mavenCentral()
+        jcenter()
     }
     dependencies {
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3'
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:2.0'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
@@ -33,3 +36,32 @@ compileKotlin {
 compileTestKotlin {
     kotlinOptions.jvmTarget = "1.8"
 }
+
+ext {
+    publishedGroupId = 'io.github.jasvilladarez'
+    publishedPackaging = 'jar'
+    publishedArtifact = 'kotelegram'
+
+    libraryVersionName = rootProject.version
+    libraryName = 'Kotelegram'
+    libraryDescription = 'A Kotlin wrapper for Telegram Bot API'
+    libraryUrl = 'https://github.com/jasvilladarez/kotelegram'
+    libraryIssuesUrl = 'https://github.com/jasvilladarez/kotelegram/issues'
+    libraryVcsUrl = 'https://github.com/jasvilladarez/kotelegram.git'
+    toPublishLibrary = true
+    toPublicDownloadNumbers = true
+
+    licenseName = 'The Apache Software License, Version 2.0'
+    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+    allLicenses = ["Apache-2.0"]
+
+    developerId = 'jasvilladarez'
+    developerName = 'Jasmine Villadarez'
+    developerEmail = 'annejasminevilladarez@gmail.com'
+
+    bintrayRepo = 'maven'
+    bintrayName = 'kotelegram'
+}
+
+apply from: 'https://raw.githubusercontent.com/jasvilladarez/gradle/master/install.gradle'
+apply from: 'https://raw.githubusercontent.com/jasvilladarez/gradle/master/bintray.gradle'
