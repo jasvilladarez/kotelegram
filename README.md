@@ -27,13 +27,6 @@ telegramBot(*<bot token>*) {
 ```
 
 # Download
-From `jcenter()`
-```
-depedencies {
-  compile 'io.github.jasvilladarez:kotelegram:0.1'
-}
-```
-From **Jitpack**
 ```
 allprojects {
 	repositories {
