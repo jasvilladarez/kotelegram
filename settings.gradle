@@ -1,2 +1,3 @@
-rootProject.name = 'api'
+rootProject.name = 'kotelegram'
+include ':sample'
 
